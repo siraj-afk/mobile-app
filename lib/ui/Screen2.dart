@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 class Screen2 extends StatefulWidget {
-  const Screen2({super.key});
+  final String image;
+  final String title;
+  final String Description;
+  final List<dynamic> genre;
+  const Screen2({super.key, required this.image, required this.title, required this.Description, required this.genre});
 
   @override
   State<Screen2> createState() => _Screen2State();
@@ -14,14 +18,24 @@ class _Screen2State extends State<Screen2> {
       backgroundColor: Colors.black,
       body: Column(
         children: [
-          Stack(children:[ Image.asset('assets/img_3.png'),
+          Stack(children:[
+            Container(
+              width: 375.w,
+                height: 300.h,
+                child: Image.network(
+                    fit: BoxFit.cover,
+                    widget.image)),
             Padding(
               padding:  EdgeInsets.only(top: 50.0.h),
               child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Padding(
                     padding:  EdgeInsets.only(left: 20.0.w),
-                    child: Icon(Icons.arrow_back,color: Colors.white,),
+                    child: GestureDetector(onTap: (){
+                      Navigator.pop(context);
+                    },
+
+                        child: Icon(Icons.arrow_back,color: Colors.white,)),
                   ),
                   Padding(
                     padding:  EdgeInsets.only(right: 20.0.w),
@@ -49,7 +63,7 @@ class _Screen2State extends State<Screen2> {
                   child: Column(crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                      Text(
-                        'Spiderman: No Way\nHome',
+                        widget.title,
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 20.sp,
@@ -75,66 +89,43 @@ class _Screen2State extends State<Screen2> {
                         ],
                       ),
                       SizedBox(height: 20.h,),
-                      Row(
-                        children: [
-                          Container(
-                            width: 61.w,
-                            height: 18.h,
-                            decoration: ShapeDecoration(
-                              color: Color(0xFFDBE3FF),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(100),
+                      SizedBox(
+                        height: 20.h,
+                        width: double.infinity.w,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: widget.genre.length,
+                          itemBuilder: (context, position) {
+                            return Padding(
+                              padding:
+                              EdgeInsets.only(left: 10.0),
+                              child: Container(
+                                width: 61.w,
+                                height: 25.h,
+                                decoration: ShapeDecoration(
+                                  color: Color(0xFFDBE3FF),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                    BorderRadius.circular(
+                                        100),
+                                  ),
+                                ),
+                                child: Center(
+                                    child: Text(
+                                      widget.genre[position].toString(),
+                                      style: TextStyle(
+                                        color: Color(0xFF87A3E8),
+                                        fontSize: 8,
+                                        fontFamily: 'Mulish',
+                                        fontWeight: FontWeight.w700,
+                                        height: 0,
+                                        letterSpacing: 0.16,
+                                      ),
+                                    )),
                               ),
-                            ),
-                            child: Center(child: Text('ACTION',  style: TextStyle(
-                              color: Color(0xFF87A3E8),
-                              fontSize: 8,
-                              fontFamily: 'Mulish',
-                              fontWeight: FontWeight.w700,
-                              height: 0,
-                              letterSpacing: 0.16,
-                            ),)),
-                          ),
-                          SizedBox(width: 10.w,),
-                          Container(
-                            width: 61.w,
-                            height: 18.h,
-                            decoration: ShapeDecoration(
-                              color: Color(0xFFDBE3FF),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(100),
-                              ),
-                            ),
-                            child: Center(child: Text('ADVENTURE',  style: TextStyle(
-                              color: Color(0xFF87A3E8),
-                              fontSize: 8,
-                              fontFamily: 'Mulish',
-                              fontWeight: FontWeight.w700,
-                              height: 0,
-                              letterSpacing: 0.16,
-                            ),)),
-                          ),
-                          SizedBox(width: 10.w,),
-                          Container(
-                            width: 61.w,
-                            height: 18.h,
-                            decoration: ShapeDecoration(
-                              color: Color(0xFFDBE3FF),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(100),
-                              ),
-                            ),
-                            child: Center(child: Text('FANTASY',  style: TextStyle(
-                              color: Color(0xFF87A3E8),
-                              fontSize: 8,
-                              fontFamily: 'Mulish',
-                              fontWeight: FontWeight.w700,
-                              height: 0,
-                              letterSpacing: 0.16,
-                            ),)),
-                          ),
-                          SizedBox(width: 10.w,)
-                        ],
+                            );
+                          },
+                        ),
                       ),
                       SizedBox(height: 20.h,),
                       Row(
@@ -199,7 +190,6 @@ class _Screen2State extends State<Screen2> {
                                   fontSize: 12,
                                   fontFamily: 'Mulish',
                                   fontWeight: FontWeight.w400,
-                                  height: 0,
                                   letterSpacing: 0.24,
                                 ),),
                                 SizedBox(height: 2.h,),
@@ -227,9 +217,7 @@ class _Screen2State extends State<Screen2> {
                       ),),
                       SizedBox(height: 20.h,),
                   Text(
-                      'With Spider-Mans identity now revealed, Peter asks \nDoctor Strange for help. '
-                          'When a spell goes wrong, \ndangerous foes from other worlds start to appear,'
-                          ' \nforcing Peter to discover what it truly means to be \nSpider-Man.',
+                      widget.Description,
                   style: TextStyle(
                   color: Color(0xFF9B9B9B),
                   fontSize: 12.sp,
